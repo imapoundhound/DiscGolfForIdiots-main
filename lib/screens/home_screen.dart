@@ -1,40 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/auth_service.dart';
+import '../widgets/fun_card.dart';
+import 'ace_race_setup_screen.dart';
+import 'login_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authProvider);
 
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Disc Golf for Idiots'),
-        centerTitle: true,
+        title: const Text('Disc Golf For Idiots'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => AuthService.signOut(),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Welcome to Disc Golf for Idiots!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: user.when(
+        data: (user) => user != null 
+            ? _buildGameCards(context)
+            : const LoginScreen(),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (_, __) => const Center(child: Text('Error loading user')),
+      ),
+    );
+  }
+
+  Widget _buildGameCards(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          FunCard(
+            title: 'New Round',
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.sports_disc_golf),
+                  title: const Text('Ace Race'),
+                  subtitle: const Text('Fast-paced ace hunting'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AceRaceSetupScreen()),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            const Text('Track your rounds and improve your game.'),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to login or round tracking
-              },
-              child: const Text('Get Started'),
+          ),
+          FunCard(
+            title: 'History',
+            child: const ListTile(
+              leading: Icon(Icons.history),
+              title: Text('Recent Rounds'),
+              subtitle: Text('View past rounds'),
             ),
-          ],
-        ),
+          ),
+          FunCard(
+            title: 'Stats',
+            child: const ListTile(
+              leading: Icon(Icons.analytics),
+              title: Text('Ace Rate & Performance'),
+              subtitle: Text('Track your stats'),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+final authProvider = StreamProvider<User?>((ref) {
+  return AuthService.authStateChanges;
+});
