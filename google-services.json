@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412053689240",
+    "project_id": "discgolfforidiots",
+    "storage_bucket": "discgolfforidiots.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412053689240:android:00d0e49f0f6ca3574451ed",
+        "android_client_info": {
+          "package_name": "com.richtermsp.discgolfforidiots"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQT85iXMhoMIM9cXeSRUz1tJwH91Fh-0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
