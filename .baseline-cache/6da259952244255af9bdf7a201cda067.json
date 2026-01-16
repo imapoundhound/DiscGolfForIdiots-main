@@ -1,0 +1,35 @@
+{
+  "timestamp": 1768521735686,
+  "data": {
+    "metadata": {
+      "scannedFiles": 0,
+      "processedFiles": 0,
+      "errorCount": 0,
+      "skippedFiles": 0,
+      "generatedAt": "2026-01-16T00:02:15.637Z",
+      "version": "2.0.0",
+      "config": {
+        "patterns": [
+          "**/*.{js,ts,tsx,jsx,css,html}",
+          "**/*.vue",
+          "**/*.svelte"
+        ],
+        "ignore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/build/**",
+          "**/.git/**",
+          "**/coverage/**",
+          "**/.next/**",
+          "**/out/**"
+        ],
+        "performance": {
+          "maxFileSize": 1048576,
+          "concurrentFiles": 10,
+          "cacheResults": true
+        }
+      }
+    },
+    "detected": []
+  }
+}
