@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.sports_disc_golf, size: 80, color: Colors.green),
+            const Icon(Icons.golf_course, size: 80, color: Colors.green),
             const SizedBox(height: 32),
             const Text(
               'Disc Golf For Idiots',

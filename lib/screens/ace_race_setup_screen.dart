@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/round.dart';
-import '../services/firestore_service.dart';
+import '../services/firestore_services.dart';
 import '../services/ace_race_generator.dart';
 
 class AceRaceSetupScreen extends StatefulWidget {

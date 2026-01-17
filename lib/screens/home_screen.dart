@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_service.dart';
-import '../widgets/fun_card.dart';
+import '../widget/fun_card.dart';
 import 'ace_race_setup_screen.dart';
 import 'login_screen.dart';
 
@@ -42,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.sports_disc_golf),
+                  leading: const Icon(Icons.golf_course),
                   title: const Text('Ace Race'),
                   subtitle: const Text('Fast-paced ace hunting'),
                   onTap: () => Navigator.push(
