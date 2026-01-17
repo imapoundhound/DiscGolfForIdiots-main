@@ -17,11 +17,11 @@ class _AceRaceSetupScreenState extends State<AceRaceSetupScreen> {
   int _holeCount = 9;
   int _acePoints = 5;
   int _metalPoints = 1;
-  int _attemptsPerHole = 2;
+  final int _attemptsPerHole = 2;
   bool _randomTee = true;
   bool _randomBasket = true;
   bool _randomThrow = false;
-  List<String> _players = ['You'];
+  final List<String> _players = ['You'];
   bool _isCreating = false;
 
   @override
