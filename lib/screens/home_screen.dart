@@ -53,17 +53,17 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
           ),
-          FunCard(
+          const FunCard(
             title: 'History',
-            child: const ListTile(
+            child: ListTile(
               leading: Icon(Icons.history),
               title: Text('Recent Rounds'),
               subtitle: Text('View past rounds'),
             ),
           ),
-          FunCard(
+          const FunCard(
             title: 'Stats',
-            child: const ListTile(
+            child: ListTile(
               leading: Icon(Icons.analytics),
               title: Text('Ace Rate & Performance'),
               subtitle: Text('Track your stats'),
