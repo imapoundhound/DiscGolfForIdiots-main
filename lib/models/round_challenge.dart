@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-=======
->>>>>>> 535a4d498195094bd60dec25f5adb25e3539f3ef
 class RoundChallenge {
   final String id;
   final String roundId;
@@ -22,7 +19,6 @@ class RoundChallenge {
     required this.challengeType,
   });
 
-<<<<<<< HEAD
   factory RoundChallenge.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return RoundChallenge(
@@ -36,9 +32,6 @@ class RoundChallenge {
     );
   }
 
-  Map<String, dynamic> toFirestore() {
-    return {
-=======
   factory RoundChallenge.fromJson(Map<String, dynamic> json) {
     return RoundChallenge(
       id: json['id'] as String,
@@ -51,10 +44,21 @@ class RoundChallenge {
     );
   }
 
+  Map<String, dynamic> toFirestore() {
+    return {
+      'id': id,
+      'roundId': roundId,
+      'index': index,
+      'teeChoice': teeChoice,
+      'basketChoice': basketChoice,
+      'throwConstraint': throwConstraint,
+      'challengeType': challengeType,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
->>>>>>> 535a4d498195094bd60dec25f5adb25e3539f3ef
       'roundId': roundId,
       'index': index,
       'teeChoice': teeChoice,
