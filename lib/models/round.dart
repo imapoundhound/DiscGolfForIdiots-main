@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Round {
   final String id;
   final String ownerId;
@@ -23,31 +21,31 @@ class Round {
     this.endedAt,
   });
 
-  factory Round.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+  factory Round.fromJson(Map<String, dynamic> data) {
     return Round(
-      id: doc.id,
-      ownerId: data['ownerId'],
-      mode: data['mode'],
-      courseName: data['courseName'],
+      id: data['id'] as String,
+      ownerId: data['ownerId'] as String,
+      mode: data['mode'] as String,
+      courseName: data['courseName'] as String?,
       rules: Map<String, dynamic>.from(data['rules'] ?? {}),
       roundPlayers: Map<String, dynamic>.from(data['roundPlayers'] ?? {}),
-      includeInStats: data['includeInStats'] ?? false,
-      startedAt: (data['startedAt'] as Timestamp).toDate(),
-      endedAt: data['endedAt'] != null ? (data['endedAt'] as Timestamp).toDate() : null,
+      includeInStats: data['includeInStats'] as bool? ?? false,
+      startedAt: DateTime.parse(data['startedAt'] as String),
+      endedAt: data['endedAt'] != null ? DateTime.parse(data['endedAt'] as String) : null,
     );
   }
 
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'ownerId': ownerId,
       'mode': mode,
       'courseName': courseName,
       'rules': rules,
       'roundPlayers': roundPlayers,
       'includeInStats': includeInStats,
-      'startedAt': Timestamp.fromDate(startedAt),
-      'endedAt': endedAt != null ? Timestamp.fromDate(endedAt!) : null,
+      'startedAt': startedAt.toIso8601String(),
+      'endedAt': endedAt?.toIso8601String(),
     };
   }
 }

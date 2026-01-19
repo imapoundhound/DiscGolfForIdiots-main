@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../models/round.dart';
 import '../services/firestore_services.dart';
 import '../services/ace_race_generator.dart';
@@ -139,14 +138,9 @@ class _AceRaceSetupScreenState extends State<AceRaceSetupScreen> {
     setState(() => _isCreating = true);
 
     try {
-      final currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser == null) {
-        _showError('User not logged in');
-        setState(() => _isCreating = false);
-        return;
-      }
-
       final roundId = const Uuid().v4();
+      final userId = 'player_${const Uuid().v4().substring(0, 8)}';
+      
       final rules = {
         'acePoints': _acePoints,
         'metalPoints': _metalPoints,
@@ -158,13 +152,13 @@ class _AceRaceSetupScreenState extends State<AceRaceSetupScreen> {
 
       final round = Round(
         id: roundId,
-        ownerId: currentUser.uid,
+        ownerId: userId,
         mode: 'ace_race',
         courseName: _courseController.text.isEmpty ? null : _courseController.text,
         rules: rules,
         roundPlayers: {
           for (int i = 0; i < _players.length; i++)
-            'player_$i': {'userId': currentUser.uid, 'order': i + 1, 'name': _players[i]},
+            'player_$i': {'userId': userId, 'order': i + 1, 'name': _players[i]},
         },
         includeInStats: true,
         startedAt: DateTime.now(),

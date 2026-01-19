@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ScoreEvent {
   final String id;
   final String roundId;
@@ -19,21 +17,21 @@ class ScoreEvent {
     required this.points,
   });
 
-  factory ScoreEvent.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+  factory ScoreEvent.fromJson(Map<String, dynamic> data) {
     return ScoreEvent(
-      id: doc.id,
-      roundId: data['roundId'],
-      roundChallengeId: data['roundChallengeId'],
-      userId: data['userId'],
-      attemptNumber: data['attemptNumber'],
-      resultType: data['resultType'],
-      points: data['points'],
+      id: data['id'] as String,
+      roundId: data['roundId'] as String,
+      roundChallengeId: data['roundChallengeId'] as String,
+      userId: data['userId'] as String,
+      attemptNumber: data['attemptNumber'] as int,
+      resultType: data['resultType'] as String,
+      points: data['points'] as int,
     );
   }
 
-  Map<String, dynamic> toFirestore() {
+  Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'roundId': roundId,
       'roundChallengeId': roundChallengeId,
       'userId': userId,
