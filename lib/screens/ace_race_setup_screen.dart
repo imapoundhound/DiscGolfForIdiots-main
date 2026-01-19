@@ -42,11 +42,11 @@ class _AceRaceSetupScreenState extends State<AceRaceSetupScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              value: _holeCount,
               decoration: const InputDecoration(
                 labelText: 'Holes',
                 border: OutlineInputBorder(),
               ),
+              value: _holeCount,
               items: [3, 6, 9, 18].map((h) => DropdownMenuItem(value: h, child: Text('$h holes'))).toList(),
               onChanged: (value) => setState(() => _holeCount = value!),
             ),
