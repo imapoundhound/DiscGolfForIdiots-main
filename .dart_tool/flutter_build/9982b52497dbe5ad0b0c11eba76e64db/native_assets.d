@@ -1,0 +1,1 @@
+ R:\\AppBuilds\\source\\DiscGolfForIdiots\\DiscGolfForIdiots-main\\DiscGolfForIdiots-main\\.dart_tool\\flutter_build\\9982b52497dbe5ad0b0c11eba76e64db\\native_assets.yaml: 

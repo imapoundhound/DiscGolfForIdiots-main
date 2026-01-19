@@ -1,35 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../services/auth_service.dart';
 import '../widget/fun_card.dart';
 import 'ace_race_setup_screen.dart';
-import 'login_screen.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authProvider);
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Disc Golf For Idiots'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => AuthService.signOut(),
-          ),
-        ],
+        centerTitle: true,
       ),
-      body: user.when(
-        data: (user) => user != null 
-            ? _buildGameCards(context)
-            : const LoginScreen(),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(child: Text('Error loading user')),
-      ),
+      body: _buildGameCards(context),
     );
   }
 
@@ -74,7 +62,3 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
-
-final authProvider = StreamProvider<User?>((ref) {
-  return AuthService.authStateChanges;
-});
