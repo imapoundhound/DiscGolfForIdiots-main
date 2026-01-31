@@ -1,12 +1,12 @@
 {
-  "timestamp": 1768521735686,
+  "timestamp": 1769738055946,
   "data": {
     "metadata": {
-      "scannedFiles": 0,
-      "processedFiles": 0,
+      "scannedFiles": 1,
+      "processedFiles": 1,
       "errorCount": 0,
       "skippedFiles": 0,
-      "generatedAt": "2026-01-16T00:02:15.637Z",
+      "generatedAt": "2026-01-30T01:54:15.915Z",
       "version": "2.0.0",
       "config": {
         "patterns": [
@@ -30,6 +30,14 @@
         }
       }
     },
-    "detected": []
+    "detected": [
+      {
+        "feature": "Web App Manifest",
+        "files": [
+          "web/index.html"
+        ],
+        "count": 1
+      }
+    ]
   }
 }
