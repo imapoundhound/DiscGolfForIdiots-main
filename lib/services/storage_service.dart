@@ -6,7 +6,7 @@ import '../models/score_event.dart';
 
 /// Service for managing persistent storage using SharedPreferences
 class StorageService {
-  static late SharedPreferences _prefs;
+ // static late SharedPreferences _prefs;
 
   static const String _roundsKey = 'rounds';
 
