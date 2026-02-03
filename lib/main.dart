@@ -39,7 +39,7 @@ final ThemeData dgfiTheme = ThemeData(
       ),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
       elevation: 10,
-      shadowColor: const Color(0xFF00FF9D).withValues(0.6), 
+      shadowColor: const Color(0xFF00FF9D).withValues(alpha: 0.6), 
     ),
   ),
 );
