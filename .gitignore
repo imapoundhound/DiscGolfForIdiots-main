@@ -28,3 +28,12 @@ Podfile.lock
 # Environment
 .env
 .env.local
+hs_err_pid5108.log
+.gitignore
+hs_err_pid7540.log
+hs_err_pid21724.log
+hs_err_pid26204.log
+replay_pid5108.log
+replay_pid7540.log
+replay_pid21724.log
+replay_pid26204.log
