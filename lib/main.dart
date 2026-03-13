@@ -44,6 +44,7 @@ final ThemeData dgfiTheme = ThemeData(
   ),
 );
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
