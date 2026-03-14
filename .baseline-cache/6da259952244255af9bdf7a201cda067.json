@@ -1,12 +1,12 @@
 {
-  "timestamp": 1769738055946,
+  "timestamp": 1773459241913,
   "data": {
     "metadata": {
-      "scannedFiles": 1,
-      "processedFiles": 1,
+      "scannedFiles": 3,
+      "processedFiles": 3,
       "errorCount": 0,
       "skippedFiles": 0,
-      "generatedAt": "2026-01-30T01:54:15.915Z",
+      "generatedAt": "2026-03-14T03:34:01.836Z",
       "version": "2.0.0",
       "config": {
         "patterns": [
@@ -31,6 +31,60 @@
       }
     },
     "detected": [
+      {
+        "feature": "CSS Math Functions",
+        "files": [
+          "dashboards/compatibility.html",
+          "dashboards/index.html"
+        ],
+        "count": 2
+      },
+      {
+        "feature": "Private Fields",
+        "files": [
+          "dashboards/compatibility.html",
+          "dashboards/index.html"
+        ],
+        "count": 2
+      },
+      {
+        "feature": "Color Contrast",
+        "files": [
+          "dashboards/compatibility.html",
+          "dashboards/index.html"
+        ],
+        "count": 2
+      },
+      {
+        "feature": "css.grid",
+        "files": [
+          "dashboards/compatibility.html",
+          "dashboards/index.html"
+        ],
+        "count": 2
+      },
+      {
+        "feature": "css.min_max",
+        "files": [
+          "dashboards/compatibility.html",
+          "dashboards/index.html"
+        ],
+        "count": 2
+      },
+      {
+        "feature": "CSS Custom Properties (advanced)",
+        "files": [
+          "dashboards/index.html"
+        ],
+        "count": 1
+      },
+      {
+        "feature": "css.custom_properties",
+        "files": [
+          "dashboards/index.html"
+        ],
+        "count": 1
+      },
       {
         "feature": "Web App Manifest",
         "files": [

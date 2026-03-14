@@ -46,8 +46,9 @@ final ThemeData dgfiTheme = ThemeData(
 
 
 void main() async {
+await StorageService.init();
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
 
