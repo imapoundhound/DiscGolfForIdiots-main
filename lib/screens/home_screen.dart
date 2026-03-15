@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widget/fun_card.dart';
 import 'ace_race_setup_screen.dart';
+import 'history_screen.dart';
+import 'stats_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,20 +43,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          const FunCard(
+          FunCard(
             title: 'History',
             child: ListTile(
-              leading: Icon(Icons.history),
-              title: Text('Recent Rounds'),
-              subtitle: Text('View past rounds'),
+              leading: const Icon(Icons.history),
+              title: const Text('Recent Rounds'),
+              subtitle: const Text('View past rounds'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HistoryScreen())),
             ),
           ),
-          const FunCard(
+          FunCard(
             title: 'Stats',
             child: ListTile(
-              leading: Icon(Icons.analytics),
-              title: Text('Ace Rate & Performance'),
-              subtitle: Text('Track your stats'),
+              leading: const Icon(Icons.analytics),
+              title: const Text('Ace Rate & Performance'),
+              subtitle: const Text('Track your stats'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StatsScreen())),
             ),
           ),
         ],
