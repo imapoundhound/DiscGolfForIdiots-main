@@ -1,3 +1,8 @@
+# Firebase Configuration (KEEP PRIVATE)
+GoogleService-Info.plist
+NEWGoogleService-Info.plist
+google-services.json
+
 # Xcode
 build/
 *.pbxuser
@@ -37,3 +42,36 @@ replay_pid5108.log
 replay_pid7540.log
 replay_pid21724.log
 replay_pid26204.log
+
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+*.iml
+*.lock
+pubspec.lock
+
+# Android
+local.properties
+key.properties
+*.keystore
+*.jks
+.cxx/
+
+# iOS
+Pods/
+Podfile.lock
+
+# Build outputs
+build/
+dist/
+*.apk
+*.ipa
+
+# Misc
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
