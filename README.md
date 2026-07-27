@@ -1,18 +1,18 @@
 # DiscGolfForIdiots
 
 A fun disc golf game that will generate creative games to play at the course:
-Ace Race
-putting games
-  Pig
-  Horse
-  around the world
-silly games 
-  pin the tail on the birdie 
-  drunk discgolf
-randomize playing format
-  throw from long/short TO long/short 
-  which hand to throw /putt with
-  Forehand /Backhand 
+*Ace Race
+*putting games
+  +Pig
+  +Horse
+  +around the world
+*silly games 
+  +pin the tail on the birdie 
+  +drunk discgolf
+*randomize playing format
+  +throw from long/short TO long/short 
+  +which hand to throw /putt with
+  +Forehand /Backhand 
 scoring application for iOS and Android.
 
 ## Project Setup
