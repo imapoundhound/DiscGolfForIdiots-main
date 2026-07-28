@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:412053689240:android:00d0e49f0f6ca3574451ed",
+        "mobilesdk_app_id": "1:412053689240:android:3a3a599e041ab8a54451ed",
         "android_client_info": {
-          "package_name": "com.richtermsp.discgolfforidiots"
+          "package_name": "Com.richtermsp.discfrolf"
         }
       },
       "oauth_client": [],
