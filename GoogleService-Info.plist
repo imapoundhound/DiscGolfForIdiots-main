@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>COM.RMSP.DISCFROLF</string>
+	<string>Com.rmsp.discfrolf</string>
 	<key>PROJECT_ID</key>
 	<string>discgolfforidiots</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:412053689240:ios:a4a1f471930816124451ed</string>
+	<string>1:412053689240:ios:1d62ef2c48c81b4c4451ed</string>
 </dict>
 </plist>
