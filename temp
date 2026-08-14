@@ -1,0 +1,341 @@
+From 947ff921c8d45284f132953d4bbc7506b54d83ea Mon Sep 17 00:00:00 2001
+From: Perplexity Assistant <assistant@perplexity.ai>
+Date: Sat, 8 Aug 2026 01:34:13 +0000
+Subject: [PATCH] fix: make Android setup portable and CI Flutter-aware
+
+---
+ .github/workflows/android.yml    | 113 ++++++++-----------------------
+ README.md                        |  39 +++++++----
+ android/local.properties         |   5 --
+ android/local.properties.example |   6 ++
+ android/settings.gradle.kts      |  17 +++--
+ scripts/setup-android-env.sh     |  44 ++++++++++++
+ 6 files changed, 114 insertions(+), 110 deletions(-)
+ delete mode 100644 android/local.properties
+ create mode 100644 android/local.properties.example
+ create mode 100755 scripts/setup-android-env.sh
+
+diff --git a/.github/workflows/android.yml b/.github/workflows/android.yml
+index 2d9845b..1e3acc4 100644
+--- a/.github/workflows/android.yml
++++ b/.github/workflows/android.yml
+@@ -2,113 +2,58 @@ name: Android Build & Test
+ 
+ on:
+   push:
+-    branches: [ "main" ]
++    branches: ["main"]
+     paths:
+       - 'android/**'
++      - 'lib/**'
++      - 'pubspec.yaml'
++      - 'pubspec.lock'
+       - '.github/workflows/android.yml'
+   pull_request:
+-    branches: [ "main" ]
++    branches: ["main"]
+     paths:
+       - 'android/**'
++      - 'lib/**'
++      - 'pubspec.yaml'
++      - 'pubspec.lock'
+       - '.github/workflows/android.yml'
+ 
+ jobs:
+-  build:
+-    name: Build Android App
++  android:
++    name: Test and build Android APK
+     runs-on: ubuntu-latest
+ 
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
+ 
+-      - name: Set up JDK 11
+-        uses: actions/setup-java@v3
++      - name: Set up Java
++        uses: actions/setup-java@v4
+         with:
+-          java-version: '11'
+-          distribution: 'temurin'
++          distribution: temurin
++          java-version: '17'
+           cache: gradle
+ 
+-      - name: Grant execute permission for gradlew
+-        run: chmod +x android/gradlew
+-
+-      - name: Build with Gradle
+-        run: |
+-          cd android
+-          ./gradlew build
+-
+-  test:
+-    name: Run Unit Tests
+-    runs-on: ubuntu-latest
+-    needs: build
+-
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v4
+-
+-      - name: Set up JDK 11
+-        uses: actions/setup-java@v3
++      - name: Set up Flutter
++        uses: subosito/flutter-action@v2
+         with:
+-          java-version: '11'
+-          distribution: 'temurin'
+-          cache: gradle
+-
+-      - name: Grant execute permission for gradlew
+-        run: chmod +x android/gradlew
+-
+-      - name: Run tests
+-        run: |
+-          cd android
+-          ./gradlew test
++          channel: stable
++          cache: true
+ 
+-  lint:
+-    name: Lint Code
+-    runs-on: ubuntu-latest
++      - name: Install dependencies
++        run: flutter pub get
+ 
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v4
++      - name: Verify Flutter environment
++        run: flutter doctor -v
+ 
+-      - name: Set up JDK 11
+-        uses: actions/setup-java@v3
+-        with:
+-          java-version: '11'
+-          distribution: 'temurin'
+-          cache: gradle
+-
+-      - name: Grant execute permission for gradlew
+-        run: chmod +x android/gradlew
+-
+-      - name: Run lint
+-        run: |
+-          cd android
+-          ./gradlew lint
+-
+-  assemble-debug:
+-    name: Assemble Debug APK
+-    runs-on: ubuntu-latest
+-    needs: build
+-
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v4
+-
+-      - name: Set up JDK 11
+-        uses: actions/setup-java@v3
+-        with:
+-          java-version: '11'
+-          distribution: 'temurin'
+-          cache: gradle
+-
+-      - name: Grant execute permission for gradlew
+-        run: chmod +x android/gradlew
++      - name: Run tests
++        run: flutter test
+ 
+-      - name: Assemble Debug APK
+-        run: |
+-          cd android
+-          ./gradlew assembleDebug
++      - name: Build debug APK
++        run: flutter build apk --debug
+ 
+-      - name: Upload APK as artifact
+-        uses: actions/upload-artifact@v3
++      - name: Upload debug APK
++        uses: actions/upload-artifact@v4
+         with:
+           name: debug-apk
+-          path: android/app/build/outputs/apk/debug/
++          path: build/app/outputs/flutter-apk/app-debug.apk
+diff --git a/README.md b/README.md
+index 83b99c9..6e22e56 100644
+--- a/README.md
++++ b/README.md
+@@ -50,35 +50,44 @@ This is a cross-platform application with iOS (Swift) and Android (Kotlin) front
+ 
+ ### Android Setup
+ 
+-1. **Navigate to Android Directory**
++1. **Install Flutter and Android SDK prerequisites**
+    ```bash
+-   cd android
++   flutter doctor
++   flutter config --android-sdk /absolute/path/to/Android/Sdk
++   flutter doctor --android-licenses
+    ```
+ 
+-2. **Build the Project**
++2. **Create your local Android properties file**
+    ```bash
+-   ./gradlew build
++   ./scripts/setup-android-env.sh
+    ```
++   This detects Flutter and a common Android SDK location, writes `android/local.properties`, runs `flutter config --android-sdk`, and runs `flutter pub get`. If needed, you can still copy `android/local.properties.example` manually and edit the paths yourself.
+ 
+-3. **Build APK**
+-   - Debug: `./gradlew assembleDebug`
+-   - Release: `./gradlew assembleRelease`
++3. **Install project dependencies**
++   ```bash
++   flutter pub get
++   ```
++
++4. **Build the Android app**
++   ```bash
++   flutter build apk --debug
++   ```
+ 
+-4. **Run Tests**
++5. **Run tests**
+    ```bash
+-   ./gradlew test
++   flutter test
+    ```
+ 
+-5. **Open in Android Studio**
+-   - File → Open → Select `android` folder
+-   - Or use: `android/gradlew :app:tasks`
++6. **Open in Android Studio**
++   - File → Open → Select the repository root or `android` folder
++   - Use the generated `android/local.properties` for local SDK paths
+ 
+ ### Firebase Configuration
+ 
+ - **iOS**: The `GoogleService-Info.plist` file is included for iOS Firebase configuration
+-- **Android**: The `google-services.json` file is included for Android Firebase configuration
++- **Android**: Add your own `google-services.json` locally when Firebase Android builds are needed; it is kept out of version control for security.
+ 
+-Both files should be properly integrated into their respective projects.
++Both platforms require local Firebase configuration that matches your project.
+ 
+ ### Project Structure
+ 
+@@ -98,7 +107,7 @@ DiscGolfForIdiots-main/
+ │   ├── gradle.properties       # Gradle properties
+ │   └── gradlew                 # Gradle wrapper
+ ├── GoogleService-Info.plist    # Firebase iOS configuration
+-├── google-services.json        # Firebase Android configuration
++├── android/local.properties.example  # Template for machine-specific Android/Flutter SDK paths
+ ├── Podfile                     # iOS CocoaPods configuration
+ ├── .gitignore
+ └── README.md
+diff --git a/android/local.properties b/android/local.properties
+deleted file mode 100644
+index 3cedece..0000000
+--- a/android/local.properties
++++ /dev/null
+@@ -1,5 +0,0 @@
+-sdk.dir=R:\\installerpkgs\\Android\\sdk
+-flutter.sdk=/home/codespace/flutter
+-flutter.buildMode=debug
+-flutter.versionName=1.0.0
+-flutter.versionCode=1
+\ No newline at end of file
+diff --git a/android/local.properties.example b/android/local.properties.example
+new file mode 100644
+index 0000000..e2fd75a
+--- /dev/null
++++ b/android/local.properties.example
+@@ -0,0 +1,6 @@
++# Copy this file to android/local.properties and update the values for your machine.
++sdk.dir=/absolute/path/to/Android/Sdk
++flutter.sdk=/absolute/path/to/flutter
++flutter.buildMode=debug
++flutter.versionName=1.0.0
++flutter.versionCode=1
+diff --git a/android/settings.gradle.kts b/android/settings.gradle.kts
+index ab39a10..c2e0894 100644
+--- a/android/settings.gradle.kts
++++ b/android/settings.gradle.kts
+@@ -1,12 +1,17 @@
+ pluginManagement {
+-    val flutterSdkPath = run {
+-        val properties = java.util.Properties()
+-        file("local.properties").inputStream().use { properties.load(it) }
+-        val flutterSdkPath = properties.getProperty("flutter.sdk")
+-        require(flutterSdkPath != null) { "flutter.sdk not set in local.properties" }
+-        flutterSdkPath
++    val localProperties = java.util.Properties()
++    val localPropertiesFile = file("local.properties")
++    if (localPropertiesFile.exists()) {
++        localPropertiesFile.inputStream().use { localProperties.load(it) }
+     }
+ 
++    val flutterSdkPath =
++        localProperties.getProperty("flutter.sdk")
++            ?: System.getenv("FLUTTER_ROOT")
++            ?: throw GradleException(
++                "Flutter SDK not found. Set flutter.sdk in android/local.properties or FLUTTER_ROOT in the environment."
++            )
++
+     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+ 
+     repositories {
+diff --git a/scripts/setup-android-env.sh b/scripts/setup-android-env.sh
+new file mode 100755
+index 0000000..8940ac1
+--- /dev/null
++++ b/scripts/setup-android-env.sh
+@@ -0,0 +1,44 @@
++#!/usr/bin/env bash
++set -euo pipefail
++
++REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
++cd "$REPO_ROOT"
++
++FLUTTER_BIN="$(command -v flutter || true)"
++if [ -z "$FLUTTER_BIN" ]; then
++  echo "Flutter is not installed or not on PATH." >&2
++  exit 1
++fi
++FLUTTER_SDK="$(dirname "$(dirname "$(readlink -f "$FLUTTER_BIN")")")"
++
++ANDROID_SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
++if [ -z "$ANDROID_SDK" ]; then
++  for candidate in "$HOME/Android/Sdk" "$HOME/Library/Android/sdk" "/usr/local/share/android-sdk"; do
++    if [ -d "$candidate" ]; then
++      ANDROID_SDK="$candidate"
++      break
++    fi
++  done
++fi
++
++if [ -z "$ANDROID_SDK" ] || [ ! -d "$ANDROID_SDK" ]; then
++  echo "Android SDK not found. Install it first, then rerun this script." >&2
++  exit 1
++fi
++
++mkdir -p android
++cat > android/local.properties <<PROPS
++sdk.dir=$ANDROID_SDK
++flutter.sdk=$FLUTTER_SDK
++flutter.buildMode=debug
++flutter.versionName=1.0.0
++flutter.versionCode=1
++PROPS
++
++flutter config --android-sdk "$ANDROID_SDK"
++flutter pub get
++
++echo "Wrote android/local.properties"
++echo "Flutter SDK: $FLUTTER_SDK"
++echo "Android SDK: $ANDROID_SDK"
++echo "Next: flutter doctor --android-licenses && flutter doctor --verbose && flutter build apk --debug"
+-- 
+2.47.3
+
