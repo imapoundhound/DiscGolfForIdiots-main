@@ -73,6 +73,7 @@ build/
 dist/
 *.apk
 *.ipa
+build.txt
 
 # Misc
 *.log
